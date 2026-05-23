@@ -1,22 +1,8 @@
-import pygame
-import sys
+from kivy.app import App
+from kivy.uix.button import Button
 
-pygame.init()
-# Setup scalable full screen for mobile
-screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN | pygame.SCALED)
-clock = pygame.time.Clock()
+class GameApp(App):
+    def build(self):
+        return Button(text="My Android Game")
 
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-            
-    # Fill the screen with solid RED
-    screen.fill((255, 0, 0)) 
-    
-    pygame.display.flip()
-    clock.tick(60)
-
-pygame.quit()
-sys.exit()
+GameApp().run()
