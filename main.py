@@ -2,7 +2,7 @@ import pygame
 import sys
 
 pygame.init()
-# Use standard Android display flags
+# Setup scalable full screen for mobile
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN | pygame.SCALED)
 clock = pygame.time.Clock()
 
@@ -12,11 +12,8 @@ while running:
         if event.type == pygame.QUIT:
             running = False
             
-    screen.fill((20, 30, 40)) # Dark blue background
-    
-    # Draw a green placeholder box in the center
-    w, h = screen.get_size()
-    pygame.draw.rect(screen, (0, 255, 0), (w//4, h//4, w//2, h//2))
+    # Fill the screen with solid RED
+    screen.fill((255, 0, 0)) 
     
     pygame.display.flip()
     clock.tick(60)
