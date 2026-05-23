@@ -1,38 +1,32 @@
-name: Build Android APK
-
-on:
-  push:
-    branches: [ main ]
+name: Android Build
+on: [push, workflow_dispatch]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-
+    runs-on: ubuntu-22.04
     steps:
-    - name: Checkout
+    - name: Checkout Code
       uses: actions/checkout@v4
 
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: 3.10
+        python-version: '3.10'
 
-    - name: Install dependencies
+    - name: Install System Dependencies
       run: |
+        sudo apt-get update
+        sudo apt-get install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev button libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libgles2-mesa-dev
         pip install --upgrade pip
-        pip install buildozer cython
+        pip install Cython==0.29.33 buildozer
 
-    - name: Install system packages
+    - name: Build APK with Buildozer
       run: |
-        sudo apt update
-        sudo apt install -y git zip unzip openjdk-17-jdk
+        export APP_ANDROID_ARCHS="arm64-v8a"
+        buildozer -v android debug
 
-    - name: Build APK
-      run: |
-        buildozer android debug
-
-    - name: Upload APK
+    - name: Upload Finished APK
       uses: actions/upload-artifact@v4
       with:
-        name: apk
+        name: Android-APK
         path: bin/*.apk
